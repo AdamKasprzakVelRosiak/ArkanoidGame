@@ -174,7 +174,7 @@ class ArkanoidCanvasGame extends CanvasGame
                      {
                          if (bat.width < 40){
                              ball.dx+= 0.2;
-                             ball.dy+= 0.2;
+                             ball.dy+= 0.3;
                          }
                          else {
                             bat.width*=0.9;
