@@ -164,30 +164,36 @@ class ArkanoidCanvasGame extends CanvasGame
                 && ball.centreY+ball.height/2 > b.y)
                 {                        
                     this.indexToDelete = c * this.brickRowCount + r;
-                    // this.scoreCounter+=(Math.abs(ball.dx)+Math.abs(ball.dy));
+                    
                     this.scoreCounter+=10*this.level;
-                    // checking type of brick
+                    
                     if (this.targetBricks[this.indexToDelete].type == 3){
                         bat.width*=1.1;
                      }
                      else if (this.targetBricks[this.indexToDelete].type == 2)
                      {
-                         if (bat.width < 40){
-                             ball.dx+= 0.2;
-                             ball.dy+= 0.3;
+                         if (bat.width < 20){
+                             console.log(ball.dx);
+                             console.log(ball.dy);
+                             
+                             if(ball.dx > 0) ball.dx += 0.1;
+                             else if (ball.dx < 0)ball.dx -= 0.1;
+                             if(ball.dy > 0) ball.dy += 0.1;
+                             else if (ball.dy < 0)ball.dy -= 0.1;
+                             
                          }
                          else {
                             bat.width*=0.9;
-                            ball.dx+= 0.2;
-                            ball.dy+= 0.2;
-                         }
-                         
+                                
+                            if(ball.dx > 0) ball.dx += 0.1;
+                            else if (ball.dx < 0)ball.dx -= 0.1;
+                            if(ball.dy > 0) ball.dy += 0.1;
+                            else if (ball.dy < 0)ball.dy -= 0.1;   
+                         } 
                      }
                     // To not display
                     this.targetBricks[this.indexToDelete].dsp = 0;
-                   
-                    // console.log(this.targetBricks[this.indexToDelete].type);
-                    console.log(this.brickCounter);
+                    this.cutBricks(this.indexToDelete);
                                  
                 // DÓŁ 
                 if(ball.centreX > b.x && ball.centreX < b.x+this.brickWidth && ball.centreY-ball.height/2 < b.y+this.brickHeight && ball.centreY-ball.height/2 < b.y+this.brickHeight )
@@ -201,7 +207,7 @@ class ArkanoidCanvasGame extends CanvasGame
                 else if (ball.centreX-ball.width/2 + ball.dx <= b.x+this.brickWidth && ball.centreX-ball.width/2  >= b.x+this.brickWidth-ball.dx && (ball.centreY >= b.y && ball.centreY
                 <= b.y+this.brickHeight)){ 
                     ball.dx = -(ball.dx);
-                    // console.log('prawa');
+                    
                     b.x = canvas.width*3;
                     this.brickCounter--;
                     return;
@@ -210,7 +216,7 @@ class ArkanoidCanvasGame extends CanvasGame
                 else if (ball.centreX+ball.width/2 + ball.dx >= b.x && ball.centreX+ball.width/2 <= b.x+b && (ball.centreY > b.y 
                     && ball.centreY < b.y+this.brickHeight)){ 
                         ball.dx = -(ball.dx);
-                        // console.log('lewa');
+                        
                         b.x = canvas.width*3;
                         this.brickCounter--;
                         return;
@@ -227,7 +233,7 @@ class ArkanoidCanvasGame extends CanvasGame
                     if(ball.centreY-ball.width/2 <= b.y+this.brickHeight && ball.centreY-ball.width/2 >= b.y)
                     {
                     ball.dx = -(ball.dx);
-                    // console.log('boczne odbicie');
+                    
                     b.x = canvas.width*3;
                     this.brickCounter--;
                     return;
@@ -274,8 +280,25 @@ class ArkanoidCanvasGame extends CanvasGame
                 ball.centreX = bat.getCentreX();
                 
                 this.brickCounter = 60;
-
             }
+        }
+    }
+    cutBricks(index)
+    {
+        const brick = this.targetBricks[index];
+
+        if (brick.height <= 0){
+            brick.dsp = 0; 
+            brick.width = 0; 
+            return;
+        }
+        setInterval(cut,80);
+
+        function cut(){
+            if(brick.height > 0){
+                brick.height-=3;  
+            }
+            else brick.width = 0; 
         }
     }
     levelLoader()

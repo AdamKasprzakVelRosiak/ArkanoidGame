@@ -15,6 +15,7 @@ class Target extends GameObject
         this.minimumSize = 10; 
         this.dsp = dsp;
         this.type = type;
+        this.delete = 0;
     }
 
     render()

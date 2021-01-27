@@ -13,11 +13,23 @@ class Fireball extends GameObject
         this.dy = -1.6;
         this.stepSize = -1;
         this.dsp = 1;
+        this.rotation = 360;
        
     }
     
     updateState()
     {
+        if (this.direction == 1){
+            this.rotation += 4;
+        }
+        else {
+            this.rotation -= 4;
+        }
+        
+        if (this.rotation < 1)
+        {
+            this.rotation = 360;
+        }
         this.centreX += this.dx;
         this.centreY += this.dy;
 
@@ -30,6 +42,11 @@ class Fireball extends GameObject
 
     render()
     {
-        ctx.drawImage(this.image, this.centreX - this.width / 2, this.centreY - this.height / 2, this.width, this.height);  
+        ctx.save();
+        ctx.translate(this.centreX, this.centreY);
+        ctx.rotate(Math.radians(this.rotation));
+        ctx.translate(-this.centreX, -this.centreY);    
+        ctx.drawImage(this.image, this.centreX - this.width / 2, this.centreY - this.height / 2, this.width, this.height);
+        ctx.restore();  
     }
 }

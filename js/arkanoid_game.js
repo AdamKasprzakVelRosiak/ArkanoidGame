@@ -14,7 +14,7 @@ let batImage = new Image();
 batImage.src = "images/paddle.png";
 
 let fireballImage = new Image();
-fireballImage.src = "images/fireball.png";
+fireballImage.src = "images/ball3.png";
 
 let life = new Image();
 life.src = "images/heart.png";
