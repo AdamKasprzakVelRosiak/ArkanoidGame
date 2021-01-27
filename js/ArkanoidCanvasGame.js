@@ -120,6 +120,8 @@ class ArkanoidCanvasGame extends CanvasGame
             else if (ball.centreY + ball.dy > canvas.height-ball.width/2)
             {
                 this.life--;
+                ball.dx = 1.1;
+                ball.dy = -1.0;
                
                 if (this.life == -1){
                     gameObjects[3] =  new StaticText("Game Over!", STATIC_TEXT_CENTRE, canvas.height/2+70, "Roboto", canvas.width/13, "white");
@@ -130,7 +132,7 @@ class ArkanoidCanvasGame extends CanvasGame
                     if(this.scoreCounter > recordScore)
                     {
                         score.set(this.scoreCounter);
-                        gameObjects[4] =  new StaticText("You break a record!", STATIC_TEXT_CENTRE, canvas.height/2+120, "Roboto", canvas.width/13, "white");
+                        gameObjects[4] =  new StaticText("You break a record!", STATIC_TEXT_CENTRE, canvas.height/2+100, "Roboto", canvas.width/13, "white");
                         gameObjects[4].start();
                         this.cup = true;
                     }
@@ -164,11 +166,11 @@ class ArkanoidCanvasGame extends CanvasGame
                 && ball.centreY+ball.height/2 > b.y)
                 {                        
                     this.indexToDelete = c * this.brickRowCount + r;
-                    
+                    // this.scoreCounter+=(Math.abs(ball.dx)+Math.abs(ball.dy));
                     this.scoreCounter+=10*this.level;
-                    
+                    // checking type of brick
                     if (this.targetBricks[this.indexToDelete].type == 3){
-                        bat.width*=1.1;
+                        bat.width*=1.2;
                      }
                      else if (this.targetBricks[this.indexToDelete].type == 2)
                      {
@@ -188,12 +190,23 @@ class ArkanoidCanvasGame extends CanvasGame
                             if(ball.dx > 0) ball.dx += 0.1;
                             else if (ball.dx < 0)ball.dx -= 0.1;
                             if(ball.dy > 0) ball.dy += 0.1;
-                            else if (ball.dy < 0)ball.dy -= 0.1;   
-                         } 
+                            else if (ball.dy < 0)ball.dy -= 0.1;
+
+                            console.log(ball.dx);
+                            console.log(ball.dy);   
+                         }
+                         
                      }
                     // To not display
-                    this.targetBricks[this.indexToDelete].dsp = 0;
+                    // this.targetBricks[this.indexToDelete].width-=10;
+                    console.log(this.targetBricks[this.indexToDelete]);
+                    const that = this;
+                    
                     this.cutBricks(this.indexToDelete);
+                    // this.targetBricks[this.indexToDelete].dsp = 0;
+                   
+                    // console.log(this.targetBricks[this.indexToDelete].type);
+                    console.log(this.brickCounter);
                                  
                 // DÓŁ 
                 if(ball.centreX > b.x && ball.centreX < b.x+this.brickWidth && ball.centreY-ball.height/2 < b.y+this.brickHeight && ball.centreY-ball.height/2 < b.y+this.brickHeight )
@@ -207,7 +220,7 @@ class ArkanoidCanvasGame extends CanvasGame
                 else if (ball.centreX-ball.width/2 + ball.dx <= b.x+this.brickWidth && ball.centreX-ball.width/2  >= b.x+this.brickWidth-ball.dx && (ball.centreY >= b.y && ball.centreY
                 <= b.y+this.brickHeight)){ 
                     ball.dx = -(ball.dx);
-                    
+                    // console.log('prawa');
                     b.x = canvas.width*3;
                     this.brickCounter--;
                     return;
@@ -216,7 +229,7 @@ class ArkanoidCanvasGame extends CanvasGame
                 else if (ball.centreX+ball.width/2 + ball.dx >= b.x && ball.centreX+ball.width/2 <= b.x+b && (ball.centreY > b.y 
                     && ball.centreY < b.y+this.brickHeight)){ 
                         ball.dx = -(ball.dx);
-                        
+                        // console.log('lewa');
                         b.x = canvas.width*3;
                         this.brickCounter--;
                         return;
@@ -233,7 +246,7 @@ class ArkanoidCanvasGame extends CanvasGame
                     if(ball.centreY-ball.width/2 <= b.y+this.brickHeight && ball.centreY-ball.width/2 >= b.y)
                     {
                     ball.dx = -(ball.dx);
-                    
+                    // console.log('boczne odbicie');
                     b.x = canvas.width*3;
                     this.brickCounter--;
                     return;
@@ -255,7 +268,7 @@ class ArkanoidCanvasGame extends CanvasGame
                  }
                 gameObjects[3] =  new StaticText("You win the game!", STATIC_TEXT_CENTRE, canvas.height/2+70, "Roboto", canvas.width/15, "white");
                 gameObjects[3].start();
-                gameObjects[4] =  new StaticText("You break a record!", STATIC_TEXT_CENTRE, canvas.height/2+140, "Roboto", canvas.width/13, "white");
+                gameObjects[4] =  new StaticText("You break a record!", STATIC_TEXT_CENTRE, canvas.height/2+100, "Roboto", canvas.width/13, "white");
                 gameObjects[4].start();
                 this.cup = true;
             }
